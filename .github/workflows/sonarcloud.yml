@@ -21,6 +21,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   
           args:
-            -Dsonar.projectKey= ${{ secrets.PROJECT_KEY }}
-            -Dsonar.organization= ${{ secrets.ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.ORGANIZATION }}
             

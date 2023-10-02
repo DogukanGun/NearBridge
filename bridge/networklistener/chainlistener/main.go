@@ -1,0 +1,5 @@
+package chainlistener
+
+func StartChainListening() {
+
+}

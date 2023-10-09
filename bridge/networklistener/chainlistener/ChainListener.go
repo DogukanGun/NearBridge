@@ -24,6 +24,10 @@ type NetworkListener struct {
 	crossChainTargetAddress string
 }
 
+func StartNetworkListening() {
+
+}
+
 func (c *NetworkListener) listenNetwork() {
 	client, err := ethclient.Dial(c.url)
 	if err != nil {

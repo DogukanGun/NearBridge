@@ -1,4 +1,4 @@
-package main
+package contract_caller
 
 import (
 	"encoding/json"
@@ -14,6 +14,11 @@ type MyFunctionArgs struct {
 }
 
 func InteractWithContract(methodName string, message string) (interface{}, error) {
+
+	// Setting up the environment variables for testing
+	os.Setenv("NEAR_ENV", "testnet")
+	os.Setenv("NEAR_ACCOUNT_ID", "c_test.testnet")
+
 	//TODO: check more usage of putting keypath in config
 	var config = near.GetConfig()
 	var connection = near.NewConnection(config.NodeURL)
@@ -43,16 +48,4 @@ func InteractWithContract(methodName string, message string) (interface{}, error
 	}
 
 	return result, nil
-}
-
-func main() {
-	// Setting up the environment variables for testing
-	os.Setenv("NEAR_ENV", "testnet")
-	os.Setenv("NEAR_ACCOUNT_ID", "c_test.testnet")
-
-	result, err := InteractWithContract("send_message", "Hello from Go_2!")
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("Result: %v", result)
 }

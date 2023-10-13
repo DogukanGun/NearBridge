@@ -8,6 +8,8 @@ contract Bridge {
     mapping(string=>address) users;
     address _owner;
 
+    event BridgeCall(address contractAddress, string message);
+
     constructor(){
         _owner = msg.sender;
     }
@@ -26,6 +28,14 @@ contract Bridge {
         bytes memory payload = abi.encodeWithSignature("sendMessage(string)",message);
         (bool success,) = users[userIdentifier].call(payload);
         require(success);
+    }
+
+    function callBridge(string message){
+        emit BridgeCall(msg.sender,message);
+    }
+
+    function getUserContractAddress(string calldata userIdentifier) onlyAdmin returns(address){
+        return users[userIdentifier];
     }
 
 }

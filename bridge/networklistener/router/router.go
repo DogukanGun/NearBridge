@@ -4,7 +4,7 @@ import (
 	"encoding/gob"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"networklistener/middlewares"
+	"networklistener/controller"
 	"time"
 )
 
@@ -18,10 +18,11 @@ func New(secret string) *gin.Engine {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	router.Use(middlewares.AuthMiddleware(secret))
+	//router.Use(middlewares.AuthMiddleware(secret))
 	// To store custom types in our cookies,
 	// we must first register them using gob.Register
 	gob.Register(map[string]interface{}{})
-
+	bridgeController := controller.BridgeController{}
+	router.POST("/sub/create", bridgeController.CreateBridge())
 	return router
 }

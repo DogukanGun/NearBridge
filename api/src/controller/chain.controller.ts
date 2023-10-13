@@ -20,7 +20,7 @@ export const getChains = (req:Request, res:Response, next:NextFunction) =>{
     ChainModel.find()
         .then((response)=>{
             if(response){
-                res.json({data:response}).sendStatus(200)
+                res.status(200).json({data:response})
             }
         })
 }

@@ -13,7 +13,13 @@ const ChainSchema = new Schema(
             required:true
         },
         chainID:{
-            type:String
+            type:String,
+            required:true
+        },
+        bridgeAddress:{
+            type:String,
+            required:true
+
         }
     }
 )

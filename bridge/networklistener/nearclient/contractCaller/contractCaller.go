@@ -1,4 +1,4 @@
-package contract_caller
+package contractCaller
 
 import (
 	"encoding/json"

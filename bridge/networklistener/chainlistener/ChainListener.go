@@ -74,13 +74,15 @@ func (c *NetworkListener) listenNetwork() {
 func (c *NetworkListener) sendRequestToNearChain(event chainListenerEvents.SolidityBridgeEvent) {
 	dbHandler := db.DatabaseHandler{}
 	client := dbHandler.ConnectMongo()
-	bridgeInst := bridgeControllerData.CreateBridgeRequest{}
+	bridgeInst := bridgeControllerData.CreateBridgeRequest{
+		NearAddress: event.ContractAddress.String(),
+	}
 	err := dbHandler.GetData(client, "Bridges", nil, &bridgeInst)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	if bridgeInst.TargetContractAddress == event.ContractAddress.String() {
+	if bridgeInst.TargetContractAddress != "" {
 		result, err := contractCaller.InteractWithContract("send_message", event.Message)
 		if err != nil {
 			fmt.Println(err)
@@ -88,5 +90,4 @@ func (c *NetworkListener) sendRequestToNearChain(event chainListenerEvents.Solid
 		}
 		fmt.Println(result)
 	}
-
 }

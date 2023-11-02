@@ -13,6 +13,9 @@ import (
 	"io/ioutil"
 	"log"
 	chainListenerEvents "networklistener/chainlistener/structs"
+	bridgeControllerData "networklistener/data"
+	"networklistener/db"
+	"networklistener/nearclient/contractCaller"
 	"strings"
 )
 
@@ -69,5 +72,22 @@ func (c *NetworkListener) listenNetwork() {
 }
 
 func (c *NetworkListener) sendRequestToNearChain(event chainListenerEvents.SolidityBridgeEvent) {
-
+	dbHandler := db.DatabaseHandler{}
+	client := dbHandler.ConnectMongo()
+	bridgeInst := bridgeControllerData.CreateBridgeRequest{
+		NearAddress: event.ContractAddress.String(),
+	}
+	err := dbHandler.GetData(client, "Bridges", nil, &bridgeInst)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if bridgeInst.TargetContractAddress != "" {
+		result, err := contractCaller.InteractWithContract("send_message", event.Message)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(result)
+	}
 }

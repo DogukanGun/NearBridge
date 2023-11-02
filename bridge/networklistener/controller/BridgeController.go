@@ -24,7 +24,9 @@ func (bc *BridgeController) CreateBridge() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 			return
 		}
-		dbHandler := db.DatabaseHandler{}
+		dbHandler := db.DatabaseHandler{
+			TargetTable: "Bridges",
+		}
 		client := dbHandler.ConnectMongo()
 		status, err := dbHandler.InsertData(client, reqData)
 		envNames := []string{"PRIVATE_KEY"}
